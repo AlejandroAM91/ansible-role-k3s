@@ -1,0 +1,33 @@
+---
+- name: Download binaries
+  ansible.builtin.get_url:
+    url: '{{ k3s_binary_url }}'
+    checksum: '{{ k3s_binary_checksum }}'
+    dest: /usr/local/bin/k3s
+    owner: root
+    group: root
+    mode: '0755'
+- name: Setup command links
+  ansible.builtin.file:
+    path: '/usr/local/bin/{{ item }}'
+    src: '/usr/local/bin/k3s'
+    state: link
+  loop:
+    - kubectl
+    - crictl
+    - ctr
+- name: Setup openrc service file
+  ansible.builtin.template:
+    src: openrc-init.j2
+    dest: /etc/init.d/k3s
+    owner: root
+    group: root
+    mode: '0755'
+  when: ansible_service_mgr == 'openrc'
+  notify:
+    - Restart service
+- name: Run service
+  ansible.builtin.service:
+    name: k3s
+    state: started
+    enabled: true

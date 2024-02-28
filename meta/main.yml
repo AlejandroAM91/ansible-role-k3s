@@ -1,3 +1,4 @@
+---
 galaxy_info:
   author: Alejandro Alonso Mayo
   description: Role to manage k3s instalations
