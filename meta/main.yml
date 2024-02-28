@@ -1,0 +1,16 @@
+galaxy_info:
+  author: Alejandro Alonso Mayo
+  description: Role to manage k3s instalations
+  license: MIT
+
+  min_ansible_version: 2.1
+
+  platforms:
+    - name: Alpine
+      versions:
+        - all
+
+  galaxy_tags:
+    - k3s
+
+dependencies: []
